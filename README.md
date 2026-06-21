@@ -11,7 +11,7 @@
 ---
 Start with a template vue project,
 ```bash
-npm create vite@latest frotend -- --template vue
+npm create vue@latest
 ```
 fix the asset paths in `vite.config.js` by adding `base: '/static/'` to the config:
 ```
