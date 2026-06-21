@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { RouterView } from "vue-router";
+import { RouterView, Transition } from "vue-router";
 
 const show_menu_pan = ref(false)
 const show_ctrl = ref(false)
@@ -132,7 +132,11 @@ onMounted(async () => {
   </div>
 
   <div class="ctrl_container" :class="{ show: !show_ctrl }">
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <Transition name="page" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
   </div>
 </template>
 

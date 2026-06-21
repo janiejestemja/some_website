@@ -4,6 +4,7 @@ const store = useCounterStore()
 </script>
 
 <template>
+  <div>
   <div class="dev_div">
     InfoDiv
   </div>
@@ -25,6 +26,7 @@ const store = useCounterStore()
       @click="store.increment()">
       increment
     </button>
+  </div>
   </div>
 </template>
 

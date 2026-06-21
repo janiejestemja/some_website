@@ -7,6 +7,7 @@ const notes = useNotesStore()
 </script>
 
 <template>
+  <div>
   <div class="dev_div">
     NotesDiv
   </div>
@@ -48,6 +49,7 @@ const notes = useNotesStore()
     </button>
   </div>
 
+  </div>
 </template>
 
 <style scoped>

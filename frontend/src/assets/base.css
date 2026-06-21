@@ -57,3 +57,15 @@ button {
   border: 1px solid var(--text);
   border-radius: 10px;
 }
+
+.page-enter-active, .page-leave-active {
+  transition: 0.5s ease;
+}
+
+.page-enter-from {
+  opacity: 0;
+}
+.page-leave-to {
+  opacity: 0;
+}
+
