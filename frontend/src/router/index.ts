@@ -18,6 +18,12 @@ const router = createRouter({
           component: () => import("@/pages/base.vue"),
         },
         {
+          path: "/notes",
+          name: "notes",
+          displayName: "notes",
+          component: () => import("@/pages/notes.vue"),
+        },
+        {
           path: "/info",
           name: "info",
           displayName: "info",

@@ -91,20 +91,16 @@ onMounted(async () => {
   <canvas ref="canvas"></canvas>
 
   <div class="nav_container">
-    <button class="menu_btn" @click='show_menu_pan = !show_menu_pan; show_ctrl = false'>
+    <RouterLink to="/" class="menu_btn" @click='show_menu_pan = !show_menu_pan; show_ctrl = false'>
       Menu
-    </button>
+    </RouterLink>
     <div class="menu_pan" :class="{ show: show_menu_pan }">
-      <div class="menu_pan_btn">
-        <RouterLink to="/" @click="show_ctrl = false">
-          Home
-        </RouterLink>
-      </div>
-      <div class="menu_pan_btn">
-        <RouterLink to="/info" @click="show_ctrl = false">
-          Info
-        </RouterLink>
-      </div>
+      <RouterLink to="/notes" @click="show_ctrl = false" class="pan_btn">
+        Notes
+      </RouterLink>
+      <RouterLink to="/info" @click="show_ctrl = false" class="pan_btn">
+        Info
+      </RouterLink>
       <button class="menu_btn" :class="{ show: true }" @click="show_ctrl = !show_ctrl">
         Ctrl
       </button>
@@ -113,29 +109,29 @@ onMounted(async () => {
 
   <div class="ctrl_container" :class="{ show: show_ctrl }">
     <div class="menu_pan" :class="{ show: true}">
-      <button class="menu_pan_btn" @click="set_cross()">
+      <button class="pan_btn" @click="set_cross()">
         +
       </button>
-      <button class="menu_pan_btn" @click="set_diagonals()">
+      <button class="pan_btn" @click="set_diagonals()">
         x
       </button>
     </div>
-    <div class="menu_pan" :class="{ show: true}">
-      <button class="menu_pan_btn" @click="paused = !paused">
+    <div class="menu_pan" :class="{ show: true }">
+      <button class="pan_btn" @click="paused = !paused">
         Paused: {{ paused? "True": "False" }}
       </button>
-      <button class="menu_pan_btn" @click="clean_board()">
+      <button class="pan_btn" @click="clean_board()">
         Clean
       </button>
     </div>
-    <div class="menu_pan" :class="{ show: true}">
-      <button class="menu_pan_btn" @click="reset_board()">
+    <div class="menu_pan" :class="{ show: true }">
+      <button class="pan_btn" @click="reset_board()">
         Restart
       </button>
     </div>
   </div>
 
-  <div class="page_container" :class="{ show: !show_ctrl }">
+  <div class="ctrl_container" :class="{ show: !show_ctrl }">
     <RouterView />
   </div>
 </template>
@@ -202,15 +198,21 @@ button {
 }
 
 .menu_btn {
-  font-size: 18px;
+  font-size: var(--fs);
   width: 64px;
-  margin: 8px 8px 8px 8px;
 
-  text-decoration: none;
+  margin: 8px 8px 8px 8px;
+  padding: 8px 0px 8px 0px;
+
+  text-decoration: underline;
   text-align: center;
 
   border: 1px solid var(--text);
   border-radius: 10px;
+
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .menu_pan {
@@ -220,23 +222,13 @@ button {
   transform-origin: left;
   transform: scaleX(0);
   transition: transform 1s ease;
+
+  &:hover {
+    font-weight: bold;
+  }
 }
 .menu_pan.show {
   transform: scaleX(1);
-}
-
-.menu_pan_btn {
-  font-size: 18px;
-  flex: 1;
-
-  margin: 8px 8px 8px 8px;
-  padding: 8px 8px 8px 8px;
-
-  text-decoration: none;
-  text-align: center;
-
-  border: 1px solid var(--text);
-  border-radius: 10px;
 }
 
 canvas {
