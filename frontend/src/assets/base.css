@@ -1,0 +1,26 @@
+:root {
+  --bg: #ddd;
+  --text: #0f0f0f;
+
+  font-family: serif;
+  font-size: 22px;
+
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f0f;
+    --text: #ddd;
+  }
+}
+
+.dev_div {
+  border: 1px solid var(--text);
+  border-radius: 10px
+}
