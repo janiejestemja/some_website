@@ -8,25 +8,21 @@ const router = createRouter({
     {
       path: "/",
       name: "BaseView",
-      displayName: "BaseView",
       component: BaseView,
       children: [
         {
           path: "",
           name: "base",
-          displayName: "base",
           component: () => import("@/pages/base.vue"),
         },
         {
           path: "/notes",
           name: "notes",
-          displayName: "notes",
           component: () => import("@/pages/notes.vue"),
         },
         {
           path: "/info",
           name: "info",
-          displayName: "info",
           component: () => import("@/pages/info.vue"),
         },
       ],

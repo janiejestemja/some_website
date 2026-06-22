@@ -2,8 +2,6 @@
 import { ref } from "vue"
 import { useNotesStore } from "@/stores/notes.ts"
 
-const ref_counter = ref([])
-const ref_salt = ref([])
 const note_passwd = ref("password")
 const text_input = ref("...")
 const notes = useNotesStore()
@@ -20,10 +18,14 @@ function hexToBytes(hex: string): Uint8Array {
     return bytes;
 }
 
-async function some_other_function(hex_note, password) {
+async function some_other_function(hex_note: {
+  note: string,
+  salt: string | null,
+  coun: string | null,
+}, password: string) {
   // import key 
-  const salt = hexToBytes(hex_note.salt)
-  const counter = hexToBytes(hex_note.coun)
+  const salt = hexToBytes(hex_note?.salt ?? "")
+  const counter = hexToBytes(hex_note?.coun ?? "")
   console.log("Salt (decrypt)")
   console.log(salt)
   console.log("Counter (decrypt)")
@@ -59,11 +61,11 @@ async function some_other_function(hex_note, password) {
     counter,
     length: 64,
   }
-  const dehexed_cipher = hexToBytes(hex_note.note)
+  const dehexed_cipher = hexToBytes(hex_note?.note ?? "")
   const decrypted = await window.crypto.subtle.decrypt(
     aes_ctr_crypto_params,
     key,
-    dehexed_cipher,
+    dehexed_cipher as unknown as ArrayBuffer,
   )
 
   const decoded = new TextDecoder().decode(decrypted)
@@ -71,7 +73,7 @@ async function some_other_function(hex_note, password) {
   notes.add_note(decoded, null, null)
 }
 
-async function some_function(note, password) {
+async function some_function(note: { note: string }, password: string) {
   // setup aes ctr params
   const aes_ctr_keygen_params = {
     name: "AES-CTR",
@@ -136,26 +138,6 @@ async function some_function(note, password) {
     encoded_note,
   ))
   const ciphered_hex = bytesToHex(cipher)
-  const dehexed_cipher = hexToBytes(ciphered_hex)
-  const decrypted = await window.crypto.subtle.decrypt(
-    aes_ctr_crypto_params,
-    key,
-    dehexed_cipher,
-  )
-
-  const decoded = new TextDecoder().decode(decrypted)
-  
-  console.log("Counter...")
-  console.log(counter)
-  console.log("Salt...")
-  console.log(salt)
-  console.log("Original: " + note)
-  console.log("Encrypted and hexed: " + ciphered_hex)
-  console.log("Decrypted: " + decoded)
-
-  ref_counter.value = counter
-  ref_salt.value = salt
-
   notes.add_note(ciphered_hex, bytesToHex(salt), bytesToHex(counter))
 }
 </script>

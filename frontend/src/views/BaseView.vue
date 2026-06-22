@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { RouterView, Transition } from "vue-router";
+import { RouterView } from "vue-router";
 
 const show_menu_pan = ref(false)
 const show_ctrl = ref(false)
@@ -8,48 +8,50 @@ const show_ctrl = ref(false)
 import init, { BoardWrapper } from "../../../rust-src/pkg/rust_src.js"
 
 // canvas section for board in background
-const canvas = ref(null)
+const canvas = ref<HTMLCanvasElement | null>(null)
 const can_hei = 387
 const can_wid = 387
 const scale = 5
 var paused = ref(false)
-let board = ref(null)
+let board = ref<BoardWrapper | null>(null)
 
 // board control
 function reset_board() {
-  board.value.reset_board();
-  board.value.set_diagonals();
+  board.value?.reset_board();
+  board.value?.set_diagonals();
   paused.value = false;
 }
 
 function clean_board() {
-  board.value.reset_board();
+  board.value?.reset_board();
   paused.value = false;
 }
 
 function set_cross() {
-  board.value.set_cross();
+  board.value?.set_cross();
   paused.value = false;
 }
 
 function set_diagonals() {
-  board.value.set_diagonals();
+  board.value?.set_diagonals();
   paused.value = false;
 }
 
 onMounted(async () => {
   // await board init
   await init()
-  board = ref(new BoardWrapper(387n, 387n, 11n))
+  board.value = new BoardWrapper(387n, 387n, 11n)
   board.value.set_diagonals()
 
   // setup canvas
+  if (!canvas.value) return
   const ctx = canvas.value.getContext("2d")
+  if (!ctx) return
   canvas.value.height = scale * can_hei
   canvas.value.width = scale * can_wid 
 
   function frame() {
-    if (!paused.value) {
+    if (!paused.value && ctx && board.value) {
       // clear board and evaluate for next generation
       ctx.clearRect(0, 0, scale * can_wid, scale * can_hei)
       board.value.next_generation()

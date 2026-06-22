@@ -3,8 +3,8 @@ import { defineStore } from "pinia"
 
 export interface Note {
   note: string,
-  salt: string,
-  coun: string,
+  salt: string | null,
+  coun: string | null,
 }
 
 function hexToBytes(hex: string): Uint8Array {
@@ -14,9 +14,9 @@ function hexToBytes(hex: string): Uint8Array {
 }
 
 export const useNotesStore = defineStore("notes", () => {
-  const notes = ref([])
+  const notes = ref<Note[]>([])
 
-  function add_note(note, salt, counter) {
+  function add_note(note: string, salt: string | null, counter: string | null) {
     console.log("Salt (add_note)")
     console.log(salt)
     if (salt !== null) {
@@ -33,7 +33,7 @@ export const useNotesStore = defineStore("notes", () => {
     notes.value.push(big_note)
   }
 
-  function remove_note(index) {
+  function remove_note(index: number) {
     notes.value.splice(index, 1)
   }
 

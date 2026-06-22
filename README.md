@@ -39,7 +39,7 @@ you'll get `frontend/dist`
 Copy build to flask 
 
 
-`frontend/dist/index.html` -> `backend/website/templates/index.html` 
+`frontend/dist/index.html` -> `backend/src/templates/index.html` 
 
 
-and `frontend/dist/assets/*` -> `backend/website/static/assets/*`.
+and `frontend/dist/assets/*` -> `backend/src/static/assets/*`.
