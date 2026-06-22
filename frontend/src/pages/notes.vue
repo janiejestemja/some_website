@@ -8,37 +8,26 @@ const note_passwd = ref("password")
 const text_input = ref("...")
 const notes = useNotesStore()
 
-/* Conversions */
-function stringToHex(str: string): string {
-    return Array.from(new TextEncoder().encode(str))
-        .map(byte => byte.toString(16).padStart(2, "0"))
-        .join(" ")
-        .toUpperCase();
-}
-
 function bytesToHex(bytes: Uint8Array): string {
     return Array.from(bytes)
         .map(byte => byte.toString(16).padStart(2, "0"))
         .join(" ")
         .toUpperCase();
 }
-
-function hexToString(hex: string): string {
-    const hexValues = hex.trim().split(/\s+/);
-    const bytes = new Uint8Array(hexValues.map(h => parseInt(h, 16)));
-    return new TextDecoder().decode(bytes);
-}
-
 function hexToBytes(hex: string): Uint8Array {
-    const hexValues = hex.trim().split(/\s+/);
+    const hexValues = hex.toString().trim().split(/\s+/);
     const bytes = new Uint8Array(hexValues.map(h => parseInt(h, 16)));
     return bytes;
 }
 
 async function some_other_function(hex_note, password) {
   // import key 
-  const salt = ref_salt.value
-  const counter = ref_counter.value
+  const salt = hexToBytes(hex_note.salt)
+  const counter = hexToBytes(hex_note.coun)
+  console.log("Salt (decrypt)")
+  console.log(salt)
+  console.log("Counter (decrypt)")
+  console.log(counter)
 
   const encoded = new TextEncoder().encode(password)
   const pass_key = await window.crypto.subtle.importKey(
@@ -70,7 +59,7 @@ async function some_other_function(hex_note, password) {
     counter,
     length: 64,
   }
-  const dehexed_cipher = hexToBytes(hex_note)
+  const dehexed_cipher = hexToBytes(hex_note.note)
   const decrypted = await window.crypto.subtle.decrypt(
     aes_ctr_crypto_params,
     key,
@@ -79,7 +68,7 @@ async function some_other_function(hex_note, password) {
 
   const decoded = new TextDecoder().decode(decrypted)
   console.log(decoded)
-  notes.add_note(decoded)
+  notes.add_note(decoded, null, null)
 }
 
 async function some_function(note, password) {
@@ -140,7 +129,7 @@ async function some_function(note, password) {
   */
 
   // encrypt note and encode it
-  const encoded_note = new TextEncoder().encode(note)
+  const encoded_note = new TextEncoder().encode(note.note)
   const cipher = new Uint8Array(await window.crypto.subtle.encrypt(
     aes_ctr_crypto_params,
     key,
@@ -167,7 +156,7 @@ async function some_function(note, password) {
   ref_counter.value = counter
   ref_salt.value = salt
 
-  notes.add_note(ciphered_hex)
+  notes.add_note(ciphered_hex, bytesToHex(salt), bytesToHex(counter))
 }
 </script>
 
@@ -192,7 +181,9 @@ async function some_function(note, password) {
         </div>
         -->
         <div class="dev_div" style="flex: 8">
-          <p>{{ note }}</p>
+          <p>{{ note.note }}</p>
+          <p>{{ note.salt }}</p>
+          <p>{{ note.coun }}</p>
         </div>
         <div class="dev_div">
           <button 
@@ -230,7 +221,7 @@ async function some_function(note, password) {
   <div class="dev_div">
     <button
       class="pan_btn"
-      @click='notes.add_note(text_input)'
+      @click='notes.add_note(text_input, null, null)'
       >
       Submit
     </button>
