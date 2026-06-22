@@ -131,7 +131,7 @@ onMounted(async () => {
     </div>
   </div>
 
-  <div class="ctrl_container" :class="{ show: !show_ctrl }">
+  <div class="page_container" :class="{ show: !show_ctrl }">
     <RouterView v-slot="{ Component }">
       <Transition name="page" mode="out-in">
         <component :is="Component" />
@@ -168,6 +168,7 @@ onMounted(async () => {
   right: 0px;
   bottom: 1px;
 
+  overflow: scroll;
   border: 1px solid var(--text);
 
   transform-origin: top;

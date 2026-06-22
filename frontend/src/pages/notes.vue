@@ -185,7 +185,7 @@ async function some_function(note, password) {
 
   <div class="dev_div" style="display: inline">
     <div v-for="(note, index) in notes.notes">
-      <div class="dev_div">
+      <div class="dev_div" style="display: inline">
         <!--
         <div class="dev_div" style="flex: 1">
           <p>{{ index }}</p>
@@ -194,27 +194,29 @@ async function some_function(note, password) {
         <div class="dev_div" style="flex: 8">
           <p>{{ note }}</p>
         </div>
-        <button 
-          class="dev_div"
-          style="flex: 1"
-          @click='some_function(note, note_passwd)'
-          >
-          <p>Encrypt</p>
-        </button>
-        <button 
-          class="dev_div"
-          style="flex: 1"
-          @click='some_other_function(note, note_passwd)'
-          >
-          <p>Decrypt</p>
-        </button>
-        <button 
-          class="dev_div"
-          style="flex: 1"
-          @click='notes.remove_note(index)'
-          >
-          <p>Delete</p>
-        </button>
+        <div class="dev_div">
+          <button 
+            class="dev_div"
+            style="flex: 1"
+            @click='some_function(note, note_passwd)'
+            >
+            <p>Encrypt</p>
+          </button>
+          <button 
+            class="dev_div"
+            style="flex: 1"
+            @click='some_other_function(note, note_passwd)'
+            >
+            <p>Decrypt</p>
+          </button>
+          <button 
+            class="dev_div"
+            style="flex: 1"
+            @click='notes.remove_note(index)'
+            >
+            <p>Delete</p>
+          </button>
+        </div>
       </div>
     </div>
   </div>
