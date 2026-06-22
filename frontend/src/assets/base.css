@@ -29,17 +29,14 @@
 
 button {
   font-size: var(--fs);
-
   color: var(--text);
   background-color: var(--bg);
 
   border: 1px solid var(--text);
   border-radius: 10px;
 
-  opacity: 0.9;
-
+  opacity: 0.8;
   &:hover {
-    opacity: 1;
     font-weight: bold;
     cursor: pointer;
   }
@@ -48,14 +45,20 @@ button {
 .pan_btn {
   font-size: var(--fs);
   flex: 1;
+  color: var(--text);
 
   margin: 8px 8px 8px 8px;
   padding: 8px 8px 8px 8px;
 
   text-align: center;
+  opacity: 0.8;
 
   border: 1px solid var(--text);
   border-radius: 10px;
+
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .page-enter-active, .page-leave-active {

@@ -141,13 +141,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-button {
-  color: var(--text);
-  background-color: var(--bg);
-
-  opacity: 0.9;
-}
-
 .ctrl_container {
   position: fixed;
 
@@ -208,8 +201,10 @@ button {
   margin: 8px 8px 8px 8px;
   padding: 8px 0px 8px 0px;
 
+  color: var(--text);
   text-decoration: underline;
   text-align: center;
+  opacity: 0.8;
 
   border: 1px solid var(--text);
   border-radius: 10px;
@@ -223,13 +218,10 @@ button {
   display: flex;
   flex: 1;
 
+  opacity: 0.8;
   transform-origin: left;
   transform: scaleX(0);
   transition: transform 1s ease;
-
-  &:hover {
-    font-weight: bold;
-  }
 }
 .menu_pan.show {
   transform: scaleX(1);
@@ -239,7 +231,7 @@ canvas {
   position: fixed;
   inset: 0;
   z-index: -1;
-  opacity: 0.5;
+  opacity: 0.6;
   width: 100vmax;
   height: 100vmax;
 }
