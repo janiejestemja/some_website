@@ -20,4 +20,5 @@ export default defineConfig({
       allow: [ '.', '..' ],
     },
   },
+  base: '/static/',
 })
