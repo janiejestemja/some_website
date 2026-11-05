@@ -19,12 +19,6 @@ export default defineConfig({
     fs: {
       allow: [ '.', '..' ],
     },
-//    proxy: {
-//     '/test': {
-//       target: 'http://127.0.0.100:12345',
-//       changeOrigin: true,
-//     }
-//   },
-    },
+  },
   base: '/static/',
 })
