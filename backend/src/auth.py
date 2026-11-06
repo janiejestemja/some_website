@@ -1,5 +1,5 @@
 from flask import jsonify, Blueprint, request, current_app
-from flask_login import login_required, login_user, logout_user
+from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
 import shutil
@@ -20,6 +20,11 @@ def login():
     user = User.query.filter_by(email=email).first()
     if user:
         if check_password_hash(user.password, passwordA):
+
+            if current_user.is_authenticated:
+                print("user already logged in.")
+                return jsonify({ "success": False }), 200
+
             # Create a session
             login_user(user, remember=True)
 
@@ -91,5 +96,8 @@ def signup():
 @login_required
 def logout():
     # Ending users session
-    x = logout_user()
-    return jsonify({ "body": True }), 200
+    if current_user.is_authenticated:
+        logout_user()
+        return jsonify({ "success": True }), 200
+    else:
+        return jsonify({ "success": False }), 200

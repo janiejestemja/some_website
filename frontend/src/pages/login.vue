@@ -33,8 +33,12 @@ async function logout() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_name: user_name.value }),
   });
-  const response = await request.json();
-  console.log(response);
+  try {
+    const response = await request.json();
+    console.log(response);
+  } catch(error) {
+    console.log("Current user not logged in.");
+  }
 }
 
 </script>
