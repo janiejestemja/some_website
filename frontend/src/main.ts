@@ -1,13 +1,34 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
 
+import { useUserSession } from "@/stores/session.ts"
+
+
 import App from "./App.vue"
 import router from "./router"
 import "./assets/main.css"
 
-const app = createApp(App)
+async function bootstrap() {
+  const app = createApp(App);
+  const pinia = createPinia();
 
-app.use(createPinia())
-app.use(router)
+  app.use(pinia);
+  app.use(router);
 
-app.mount("#app")
+  // Hydrate
+  const session = useUserSession(pinia)
+  try {
+    const request = await fetch("logged_in", { method: "POST" });
+    const response = await request.json();
+    console.log(response);
+    if (response.success === true) {
+      session.log_in();
+    }
+  } catch {
+    session.log_out();
+  }
+
+  app.mount("#app");
+}
+
+bootstrap();

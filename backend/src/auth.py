@@ -92,12 +92,21 @@ def signup():
         return jsonify({ "success": True }), 200
     return jsonify({ "success": False }), 200
 
+
 @auth.route("/logout", methods=["POST"])
 @login_required
 def logout():
     # Ending users session
     if current_user.is_authenticated:
         logout_user()
+        return jsonify({ "success": True }), 200
+    else:
+        return jsonify({ "success": False }), 200
+
+
+@auth.route("/logged_in", methods=["POST"])
+def logged_in():
+    if current_user.is_authenticated:
         return jsonify({ "success": True }), 200
     else:
         return jsonify({ "success": False }), 200

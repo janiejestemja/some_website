@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
+import { useUserSession } from "@/stores/session.ts"
+const session = useUserSession()
+
 const user_name = ref("");
 const email = ref("");
 const password = ref("");
@@ -14,6 +17,9 @@ async function login() {
     body: JSON.stringify({ email: email.value, password: password.value }),
   });
   const response = await request.json();
+  if (response.success === true) {
+    session.log_in();
+  } 
   console.log(response);
 }
 
@@ -35,6 +41,9 @@ async function logout() {
   });
   try {
     const response = await request.json();
+    if (response.success === true) {
+      session.log_out();
+    } 
     console.log(response);
   } catch(error) {
     console.log("Current user not logged in.");
@@ -45,6 +54,11 @@ async function logout() {
 
 <template>
   <div>
+  <div class="dev_div">
+    <p>
+      Logged in: {{ session.logged_in }}
+    </p>
+  </div>
 
   <div class="dev_div">
     <h3>Logout</h3>
