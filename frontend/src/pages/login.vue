@@ -64,7 +64,7 @@ async function logout() {
     <h3>Logout</h3>
   </div>
   <div class="dev_div">
-    <button @click="logout()" class="dev_div" style="flex: 1">Logout</button>
+    <button @click="logout()" class="pan_btn" style="flex: 1">Logout</button>
   </div>
 
   <div class="dev_div">
@@ -73,13 +73,13 @@ async function logout() {
 
   <form @submit.prevent="login" class="dev_div; display: inline">
     <div class="dev_div" style="flex: 1">
-      <input v-model="email" class="dev_div" style="flex: 1" type="email" name="email" placeholder="email" required><br>
+      <input v-model="email" class="pan_btn" style="flex: 1" type="email" name="email" placeholder="email" required><br>
     </div>
     <div class="dev_div" style="flex: 1">
-      <input v-model="password" class="dev_div" style="flex: 1" type="password" name="passwordA" placeholder="Password" required><br>
+      <input v-model="password" class="pan_btn" style="flex: 1" type="password" name="passwordA" placeholder="Password" required><br>
     </div>
     <div class="dev_div" style="flex: 1">
-      <button type="submit" class="dev_div" style="flex: 1">Submit</button>
+      <button type="submit" class="pan_btn" style="flex: 1">Login</button>
     </div>
   </form>
 
@@ -88,19 +88,19 @@ async function logout() {
   </div>
   <form @submit.prevent="signup" class="dev_div; display: inline">
     <div class="dev_div" style="flex: 1">
-      <input v-model="user_name" class="dev_div" style="flex: 1" type="text" name="user_name" placeholder="Username" required><br>
+      <input v-model="user_name" class="pan_btn" style="flex: 1" type="text" name="user_name" placeholder="Username" required><br>
     </div>
     <div class="dev_div" style="flex: 1">
-      <input v-model="email" class="dev_div" style="flex: 1" type="email" name="email" placeholder="email" required><br>
+      <input v-model="email" class="pan_btn" style="flex: 1" type="email" name="email" placeholder="email" required><br>
     </div>
     <div class="dev_div" style="flex: 1">
-      <input v-model="passwordA" class="dev_div" style="flex: 1" type="password" name="passwordA" placeholder="Password" required><br>
+      <input v-model="passwordA" class="pan_btn" style="flex: 1" type="password" name="passwordA" placeholder="Password" required><br>
     </div>
     <div class="dev_div" style="flex: 1">
-      <input v-model="passwordB" class="dev_div" style="flex: 1" type="password" name="passwordB" placeholder="Confirm password" required><br>
+      <input v-model="passwordB" class="pan_btn" style="flex: 1" type="password" name="passwordB" placeholder="Confirm password" required><br>
     </div>
     <div class="dev_div" style="flex: 1">
-      <button type="submit" class="dev_div" style="flex: 1">Submit</button>
+      <button type="submit" class="pan_btn" style="flex: 1">Signup</button>
     </div>
   </form>
 

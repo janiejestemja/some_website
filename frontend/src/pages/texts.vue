@@ -72,6 +72,27 @@ onMounted(loadFiles)
 <template>
 <div>
 
+  <form action="/upload_textfile" method="POST" enctype="multipart/form-data" @submit.prevent="onSubmit">
+    <div class="dev_div">
+      <label for="file" class="pan_btn">Choose a textfile to upload.</label>
+    </div>
+    <div class="dev_div">
+      <input id="file" class="pan_btn" type="file" name="file" />
+    </div>
+    <div class="dev_div">
+      <button class="pan_btn" type="submit" :disabled="busy">Upload</button>
+    </div>
+    <p v-if="status">{{ status }}</p>
+  </form>
+
+  <br>
+
+  <div class="dev_div">
+    <button @click="loadFiles" class="pan_btn" :disabled="loading">Refresh</button>
+  </div>
+
+  <br>
+
   <p v-if="loading">Loading…</p>
   <p v-else-if="error">Couldn't load files: {{ error }}</p>
   <div v-else class="dev_div" style="display: inline">
@@ -91,25 +112,6 @@ onMounted(loadFiles)
       </div>
     </div>
   </div>
-  <div class="dev_div">
-    <button @click="loadFiles" class="pan_btn" :disabled="loading">Refresh</button>
-  </div>
-
-  <br>
-
-  <form action="/upload_textfile" method="POST" enctype="multipart/form-data" @submit.prevent="onSubmit">
-    <div class="dev_div">
-      <label for="file" class="pan_btn">Choose a textfile to upload.</label>
-    </div>
-    <div class="dev_div">
-      <input id="file" class="pan_btn" type="file" name="file" />
-    </div>
-    <div class="dev_div">
-      <button class="pan_btn" type="submit" :disabled="busy">Upload</button>
-    </div>
-    <p v-if="status">{{ status }}</p>
-  </form>
-
 </div>
 </template>
 
