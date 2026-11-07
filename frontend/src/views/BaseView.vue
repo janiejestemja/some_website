@@ -116,7 +116,7 @@ onMounted(async () => {
 
   <div class="ctrl_container" :class="{ show: show_ctrl }">
 
-    <h3 class="dev_div">Control</h3>
+    <h3 class="pan_btn">Control</h3>
     <div class="menu_pan" :class="{ show: true}">
       <button class="pan_btn" @click="set_cross()">
         +
@@ -138,7 +138,7 @@ onMounted(async () => {
         Restart
       </button>
     </div>
-    <h3 class="dev_div">Navigation</h3>
+    <h3 class="pan_btn">Navigation</h3>
     <div class="menu_pan" :class="{ show: show_menu_pan }">
       <RouterLink to="/login" @click="show_ctrl = false" class="pan_btn">
         Login

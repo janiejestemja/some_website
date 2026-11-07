@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import { useUserSession } from "@/stores/session.ts"
-const session = useUserSession()
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+import { useUserSession } from "@/stores/session.ts";
+const session = useUserSession();
 
 const user_name = ref("");
 const email = ref("");
@@ -19,8 +22,8 @@ async function login() {
   const response = await request.json();
   if (response.success === true) {
     session.log_in();
+    router.push("/");
   } 
-  console.log(response);
 }
 
 async function signup() {
@@ -30,7 +33,7 @@ async function signup() {
     body: JSON.stringify({ user_name: user_name.value, email: email.value, passwordA: passwordA.value, passwordB: passwordB.value }),
   });
   const response = await request.json();
-  console.log(response);
+  router.push("/");
 }
 </script>
 

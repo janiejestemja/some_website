@@ -144,8 +144,8 @@ async function some_function(note: { note: string }, password: string) {
 
 <template>
   <div>
-  <div class="dev_div">
-    DemoDiv
+  <div class="pan_btn">
+    <p>Client side cryptography demo</p>
   </div>
   <div class="dev_div">
     <input v-model="note_passwd" 
