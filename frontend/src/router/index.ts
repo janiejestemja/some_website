@@ -31,6 +31,11 @@ const router = createRouter({
           name: "login",
           component: () => import("@/pages/login.vue"),
         },
+        {
+          path: "/texts",
+          name: "texts",
+          component: () => import("@/pages/texts.vue"),
+        },
       ],
     },
   ],

@@ -2,6 +2,9 @@
 import { ref, onMounted } from "vue";
 import { RouterView } from "vue-router";
 
+import { useUserSession } from "@/stores/session.ts"
+const session = useUserSession()
+
 const show_menu_pan = ref(false)
 const show_ctrl = ref(false)
 
@@ -135,6 +138,11 @@ onMounted(async () => {
     <div class="menu_pan" :class="{ show: show_menu_pan }">
       <RouterLink to="/login" @click="show_ctrl = false" class="pan_btn">
         Login
+      </RouterLink>
+    </div>
+    <div class="menu_pan" :class="{ show: session.logged_in }">
+      <RouterLink to="/texts" @click="show_ctrl = false" class="pan_btn">
+        texts
       </RouterLink>
     </div>
   </div>
