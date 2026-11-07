@@ -24,7 +24,11 @@
 .dev_div {
   display: flex;
   border: 1px solid var(--text);
-  border-radius: 10px
+  border-radius: 10px;
+}
+.dev_div.hide {
+  transform: scaleY(0);
+  transition: transform 1s ease;
 }
 
 button {

@@ -145,7 +145,7 @@ async function some_function(note: { note: string }, password: string) {
 <template>
   <div>
   <div class="dev_div">
-    NotesDiv
+    DemoDiv
   </div>
   <div class="dev_div">
     <input v-model="note_passwd" 

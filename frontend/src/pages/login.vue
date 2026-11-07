@@ -32,24 +32,6 @@ async function signup() {
   const response = await request.json();
   console.log(response);
 }
-
-async function logout() {
-  const request = await fetch("/logout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ user_name: user_name.value }),
-  });
-  try {
-    const response = await request.json();
-    if (response.success === true) {
-      session.log_out();
-    } 
-    console.log(response);
-  } catch(error) {
-    console.log("Current user not logged in.");
-  }
-}
-
 </script>
 
 <template>
@@ -58,13 +40,6 @@ async function logout() {
     <p>
       Logged in: {{ session.logged_in }}
     </p>
-  </div>
-
-  <div class="dev_div">
-    <h3>Logout</h3>
-  </div>
-  <div class="dev_div">
-    <button @click="logout()" class="pan_btn" style="flex: 1">Logout</button>
   </div>
 
   <div class="dev_div">

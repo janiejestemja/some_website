@@ -5,6 +5,8 @@ import { RouterView } from "vue-router";
 import { useUserSession } from "@/stores/session.ts"
 const session = useUserSession()
 
+import { useLogout } from "@/composables/useLogout.ts"
+
 const show_menu_pan = ref(false)
 const show_ctrl = ref(false)
 
@@ -100,8 +102,8 @@ onMounted(async () => {
       Menu
     </RouterLink>
     <div class="menu_pan" :class="{ show: show_menu_pan }">
-      <RouterLink to="/notes" @click="show_ctrl = false" class="pan_btn">
-        Notes
+      <RouterLink to="/demo" @click="show_ctrl = false" class="pan_btn">
+        Demo
       </RouterLink>
       <RouterLink to="/info" @click="show_ctrl = false" class="pan_btn">
         Info
@@ -114,6 +116,7 @@ onMounted(async () => {
 
   <div class="ctrl_container" :class="{ show: show_ctrl }">
 
+    <h3 class="dev_div">Control</h3>
     <div class="menu_pan" :class="{ show: true}">
       <button class="pan_btn" @click="set_cross()">
         +
@@ -135,14 +138,18 @@ onMounted(async () => {
         Restart
       </button>
     </div>
+    <h3 class="dev_div">Navigation</h3>
     <div class="menu_pan" :class="{ show: show_menu_pan }">
       <RouterLink to="/login" @click="show_ctrl = false" class="pan_btn">
         Login
       </RouterLink>
     </div>
     <div class="menu_pan" :class="{ show: session.logged_in }">
+      <button @click="useLogout(session)" class="pan_btn" style="flex: 1">Logout</button>
+    </div>
+    <div class="menu_pan" :class="{ show: session.logged_in }">
       <RouterLink to="/texts" @click="show_ctrl = false" class="pan_btn">
-        texts
+        Textfiles
       </RouterLink>
     </div>
   </div>
