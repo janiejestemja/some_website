@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { RouterView } from "vue-router";
+import { RouterView, useRouter } from "vue-router";
+const router = useRouter();
 
 import { useUserSession } from "@/stores/session.ts"
 const session = useUserSession()
@@ -148,7 +149,7 @@ onMounted(async () => {
       </RouterLink>
     </div>
     <div class="menu_pan" :class="{ show: session.logged_in }">
-      <button @click="useLogout(session); flashMsgQ.push('Logout successful.', 'success');" class="pan_btn" style="flex: 1">Logout</button>
+      <button @click="useLogout(session); flashMsgQ.push('Logout successful.', 'success'); router.push('/')" class="pan_btn" style="flex: 1">Logout</button>
     </div>
     <div class="menu_pan" :class="{ show: session.logged_in }">
       <RouterLink to="/texts" @click="show_ctrl = false" class="pan_btn">

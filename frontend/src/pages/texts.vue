@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
 
+import { useFlashStore } from "@/stores/flash";
+const flashMsgQ = useFlashStore();
+
 const status = ref<string | null>(null)
 const busy = ref(false)
 
@@ -24,23 +27,31 @@ async function loadFiles() {
     files.value = data.files
   } catch (e) {
     error.value = errorMessage(e)
+    flashMsgQ.push("Failure to load files.", "error");
   } finally {
     loading.value = false
   }
 }
 
-function deleteTextfile(filename: string) {
-    if (confirm("Are you sure you want to delete this file?")) {
-        fetch("/delete_textfile", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ filename: filename }),
-        }).then((_res) => {
-          loadFiles()
-        });
+async function deleteTextfile(filename: string) {
+  if (confirm("Are you sure you want to delete this file?")) {
+    const res = await fetch("/delete_textfile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filename: filename }),
+    });
+    try {
+      const data = await res.json();
+      if (data.success) {
+        loadFiles();
+        flashMsgQ.push("File deleted.", "success");
+      }
+    } catch(e) {
+      flashMsgQ.push("File deletion failed.", "error");
     }
+  }
 }
 
 async function onSubmit(e: Event) {
@@ -56,13 +67,15 @@ async function onSubmit(e: Event) {
     const data = await res.json()
     status.value = data.success ? "Uploaded." : "Upload failed."
     if (data.success) {
-      form.reset()
-      loadFiles()
+      form.reset();
+      loadFiles();
+      flashMsgQ.push("File uploaded.", "success");
     }
   } catch (err) {
-    status.value = "Network error."
+    status.value = "Network error.";
+    flashMsgQ.push("Network error occured during upload.", "error");
   } finally {
-    busy.value = false
+    busy.value = false;
   }
 }
 
