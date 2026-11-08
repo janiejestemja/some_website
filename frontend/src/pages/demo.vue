@@ -26,10 +26,6 @@ async function some_other_function(hex_note: {
   // import key 
   const salt = hexToBytes(hex_note?.salt ?? "")
   const counter = hexToBytes(hex_note?.coun ?? "")
-  console.log("Salt (decrypt)")
-  console.log(salt)
-  console.log("Counter (decrypt)")
-  console.log(counter)
 
   const encoded = new TextEncoder().encode(password)
   const pass_key = await window.crypto.subtle.importKey(
@@ -69,7 +65,6 @@ async function some_other_function(hex_note: {
   )
 
   const decoded = new TextDecoder().decode(decrypted)
-  console.log(decoded)
   notes.add_note(decoded, null, null)
 }
 

@@ -8,8 +8,6 @@ export async function useLogout(session: any) {
     if (response.success === true) {
       session.log_out();
     } 
-    console.log(response);
-  } catch(error) {
-    console.log("Current user not logged in.");
+  } catch(error) { 
   }
 }

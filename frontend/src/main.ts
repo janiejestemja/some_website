@@ -20,7 +20,6 @@ async function bootstrap() {
   try {
     const request = await fetch("logged_in", { method: "POST" });
     const response = await request.json();
-    console.log(response);
     if (response.success === true) {
       session.log_in();
     }

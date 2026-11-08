@@ -12,10 +12,6 @@ const show_ctrl = ref(false)
 
 import { useFlashStore } from "@/stores/flash";
 const flashMsgQ = useFlashStore();
-flashMsgQ.push("Fancy Msg!");
-flashMsgQ.push("Fancy Msg!", "success");
-flashMsgQ.push("Fancy Msg!", "error");
-flashMsgQ.push("Fancy Msg!", "warning");
 
 import init, { BoardWrapper } from "../../../rust-src/pkg/rust_src.js"
 

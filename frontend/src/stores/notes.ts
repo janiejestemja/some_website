@@ -17,14 +17,9 @@ export const useNotesStore = defineStore("notes", () => {
   const notes = ref<Note[]>([])
 
   function add_note(note: string, salt: string | null, counter: string | null) {
-    console.log("Salt (add_note)")
-    console.log(salt)
     if (salt !== null) {
     let salt_bytes = hexToBytes(salt)
-    console.log(salt_bytes)
     }
-    console.log("Count (add_note)")
-    console.log(counter)
     let big_note = {
       note: note,
       salt: salt,
