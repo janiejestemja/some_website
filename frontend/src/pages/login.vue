@@ -6,6 +6,8 @@ const router = useRouter();
 
 import { useUserSession } from "@/stores/session.ts";
 const session = useUserSession();
+import { useFlashStore } from "@/stores/flash";
+const flashMsgQ = useFlashStore();
 
 const user_name = ref("");
 const email = ref("");
@@ -22,8 +24,11 @@ async function login() {
   const response = await request.json();
   if (response.success === true) {
     session.log_in();
+    flashMsgQ.push("Login sucessful.", "success");
     router.push("/");
-  } 
+  } else {
+    flashMsgQ.push("Login failed.", "error");
+  }
 }
 
 async function signup() {
@@ -33,7 +38,12 @@ async function signup() {
     body: JSON.stringify({ user_name: user_name.value, email: email.value, passwordA: passwordA.value, passwordB: passwordB.value }),
   });
   const response = await request.json();
-  router.push("/");
+  if (response.success === true) {
+    flashMsgQ.push("Signup sucessful.", "success");
+    router.push("/");
+  } else {
+    flashMsgQ.push("Signup failed.", "error");
+  }
 }
 </script>
 

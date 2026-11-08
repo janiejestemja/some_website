@@ -10,6 +10,13 @@ import { useLogout } from "@/composables/useLogout.ts"
 const show_menu_pan = ref(false)
 const show_ctrl = ref(false)
 
+import { useFlashStore } from "@/stores/flash";
+const flashMsgQ = useFlashStore();
+flashMsgQ.push("Fancy Msg!");
+flashMsgQ.push("Fancy Msg!", "success");
+flashMsgQ.push("Fancy Msg!", "error");
+flashMsgQ.push("Fancy Msg!", "warning");
+
 import init, { BoardWrapper } from "../../../rust-src/pkg/rust_src.js"
 
 // canvas section for board in background
@@ -145,13 +152,38 @@ onMounted(async () => {
       </RouterLink>
     </div>
     <div class="menu_pan" :class="{ show: session.logged_in }">
-      <button @click="useLogout(session)" class="pan_btn" style="flex: 1">Logout</button>
+      <button @click="useLogout(session); flashMsgQ.push('Logout successful.', 'success');" class="pan_btn" style="flex: 1">Logout</button>
     </div>
     <div class="menu_pan" :class="{ show: session.logged_in }">
       <RouterLink to="/texts" @click="show_ctrl = false" class="pan_btn">
         Textfiles
       </RouterLink>
     </div>
+  </div>
+
+  <div class="flash-stack" aria-live="polite" aria-atomic="false">
+    <TransitionGroup name="flash">
+      <div
+        v-for="msg in flashMsgQ.messages"
+        :key="msg.id"
+        class="flash"
+        :class="`flash--${msg.type}`"
+        role="status"
+      >
+        <span class="flash__icon" aria-hidden="true">
+          <template v-if="msg.type === 'success'">✓</template>
+          <template v-else-if="msg.type === 'error'">✕</template>
+          <template v-else-if="msg.type === 'warning'">!</template>
+          <template v-else>i</template>
+        </span>
+        <p class="flash__text">{{ msg.text }}</p>
+        <button
+          class="flash__close"
+          @click="flashMsgQ.remove(msg.id)"
+          aria-label="Dismiss"
+        >×</button>
+      </div>
+    </TransitionGroup>
   </div>
 
   <div class="page_container" :class="{ show: !show_ctrl }">
@@ -264,5 +296,99 @@ canvas {
   canvas {
     opacity: 0.25;
   }
+}
+
+.flash-stack {
+  position: fixed;
+  top: 64px;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: min(24rem, calc(100vw - 2rem));
+  pointer-events: none; /* so empty stack doesn't block clicks */
+}
+
+.flash {
+  top: 65px;
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  background: var(--flash-bg);
+  color: var(--flash-fg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Per-type color tokens */
+.flash--success { --flash-bg: #ecfdf5; --flash-fg: #065f46; --flash-border: #a7f3d0; border-color: var(--flash-border); }
+.flash--error   { --flash-bg: #fef2f2; --flash-fg: #991b1b; --flash-border: #fecaca; border-color: var(--flash-border); }
+.flash--warning { --flash-bg: #fffbeb; --flash-fg: #92400e; --flash-border: #fde68a; border-color: var(--flash-border); }
+.flash--info    { --flash-bg: #eff6ff; --flash-fg: #1e40af; --flash-border: #bfdbfe; border-color: var(--flash-border); }
+
+.flash__icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+}
+.flash--success .flash__icon { background: #059669; }
+.flash--error   .flash__icon { background: #dc2626; }
+.flash--warning .flash__icon { background: #d97706; }
+.flash--info    .flash__icon { background: #2563eb; }
+
+.flash__text {
+  flex: 1;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.flash__close {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.5;
+  padding: 0 0.25rem;
+}
+.flash__close:hover { opacity: 1; }
+
+/* TransitionGroup animations */
+.flash-enter-active,
+.flash-leave-active {
+  transition: all 0.25s ease;
+}
+.flash-enter-from {
+  opacity: 0;
+  transform: translateX(1rem);
+}
+.flash-leave-to {
+  opacity: 0;
+  transform: translateX(1rem);
+}
+.flash-leave-active {
+  position: absolute; /* so remaining items slide up smoothly */
+}
+
+/* Dark mode friendly */
+@media (prefers-color-scheme: dark) {
+  .flash--success { --flash-bg: #052e2b; --flash-fg: #6ee7b7; --flash-border: #065f46; border-color: var(--flash-border); }
+  .flash--error   { --flash-bg: #3f1414; --flash-fg: #fca5a5; --flash-border: #991b1b; border-color: var(--flash-border); }
+  .flash--warning { --flash-bg: #3b2606; --flash-fg: #fcd34d; --flash-border: #92400e; border-color: var(--flash-border); }
+  .flash--info    { --flash-bg: #0f1d3d; --flash-fg: #93c5fd; --flash-border: #1e40af; border-color: var(--flash-border); }
 }
 </style>
