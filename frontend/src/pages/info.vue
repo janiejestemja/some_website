@@ -4,7 +4,7 @@
 <template>
   <div>
     <div class="pan_btn">
-    <p>The game of flowsers has only four rules:</p>
+    <p>The game of flowers has only four rules:</p>
     <p>- if a flower has less than two neighbours it is lonely, it dies,</p>
     <p>- if a flower has more than three neighbours it is crowded, it dies,</p>
     <p>- if a flower has two or three neighbours it continues living,</p>
