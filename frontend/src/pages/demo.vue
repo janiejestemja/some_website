@@ -3,7 +3,7 @@ import { ref } from "vue"
 import { useNotesStore } from "@/stores/notes.ts"
 
 const note_passwd = ref("password")
-const text_input = ref("...")
+const text_input = ref("message")
 const notes = useNotesStore()
 
 function bytesToHex(bytes: Uint8Array): string {
@@ -140,7 +140,8 @@ async function some_function(note: { note: string }, password: string) {
 <template>
   <div>
   <div class="pan_btn">
-    <p>Client side cryptography demo</p>
+    <p>Client side cryptography demo.</p>
+    <p>Pin a message to encrypt or decrypt with the given password.</p>
   </div>
   <div class="dev_div">
     <input v-model="note_passwd" 
@@ -200,7 +201,7 @@ async function some_function(note: { note: string }, password: string) {
       class="pan_btn"
       @click='notes.add_note(text_input, null, null)'
       >
-      Submit
+      Pin
     </button>
   </div>
 
